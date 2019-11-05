@@ -16,3 +16,41 @@ The repository includes a sample task definition for running the SSM agent as a 
 
 ## The example
 Getting the agent running as a Fargate task is a great accomplishment, but it's not that useful unless you can use it to interact with other applications running in the container, e.g. NGINX or Redis.  Docker provides a couple of examples of how you can [run multiple service in a container](https://docs.docker.com/config/containers/multi-service_container/). The example [in the example directory] uses supervisord to run the SSM agent and Redis.  
+
+## Automated Setup Using the Makefile
+A make target was added to simplify deploying a working demo of the project.  Follow the DIY steps above **or** run the following commands on a machine with Make, the awscli, and administrator level access.
+
+**Step 1**
+```
+make create-ssm-role
+make create-activation
+
+aws ssm create-activation --default-instance-name FargateContainers --iam-role AutomationServiceRole --registration-limit 100 --region us-west-2 --tags "Key=App,Value=FargateDemo"
+{
+    "ActivationId": "000-0000-0000",
+    "ActivationCode": "xyz1234567"
+}
+```
+
+**Step 2**
+
+Take that activation and ID and put them in the entrypoint scripts prior to building the demo containers.
+They are in files/entrypoint.sh and examples/redis/files/entrypoint.sh respectively.  
+
+> Note: Do not do this in production as these are only for demo purposes and likely this should be replaced with secrets manager or parameter store.  Activations are only good for 24 hours.  Do not leak these by committing them to github.
+
+
+**Step 3**
+
+Setup the rest of the tasks.
+
+```
+make setup
+make build
+make push
+make create-task-role
+make render-parameters
+make create-task
+```
+
+> Note: This does not create a fargate cluster in awsvpc mode for you.  You'll need to do that and run the task on your own.  
