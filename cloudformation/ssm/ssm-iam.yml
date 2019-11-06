@@ -26,10 +26,11 @@ Resources:
             Service:
             - ssm.amazonaws.com
             - ec2.amazonaws.com
+            - ecs-tasks.amazonaws.com
           Action: sts:AssumeRole
       ManagedPolicyArns:
       - arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole
-      - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore 
+      - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
       - !Ref AutomationServicePolicy
       Path: "/"
       RoleName: AutomationServiceRole
