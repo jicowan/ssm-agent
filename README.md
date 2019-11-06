@@ -1,4 +1,9 @@
 # ssm-agent
+
+![screenshot](img/1.png)
+
+> Above AWS Systems Manager is used in an interactive session with a container running in Amazon Container Services _Fargate_.  The interactive shell uses 100% https and all commands run are logged in AWS CloudTrail.
+
 ## Introduction
 The SSM agent can do a variety of different things.  For example, it can inventory the software that is running on a fleet of instances. You can also run commands against those instances.  In September 2018, SSM added support for shell access to EC2 instances without running bastion hosts or distributing SSH keys.  While it was never designed to run inside of a Docker container, I thought that doing so would be interesting experiment.  
 
