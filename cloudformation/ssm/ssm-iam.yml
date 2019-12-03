@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation template IAM Roles for Systems Manager | Automation Service
+Resources:
+  AutomationServicePolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: AllowControlChannelMessages
+            Effect: Allow
+            Action: 
+              - "ssmmessages:CreateControlChannel"
+              - "ssmmessages:CreateDataChannel"
+              - "ssmmessages:OpenControlChannel"
+              - "ssmmessages:OpenDataChannel"
+            Resource: '*'
+  AutomationServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - ssm.amazonaws.com
+            - ec2.amazonaws.com
+            - ecs-tasks.amazonaws.com
+          Action: sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole
+      - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      - !Ref AutomationServicePolicy
+      Path: "/"
+      RoleName: AutomationServiceRole
