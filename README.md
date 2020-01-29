@@ -1,3 +1,5 @@
+You can now use the [Cloud Debugging](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/ecs-debug.html) feature in the JetBrains IDEs to attach to a running container on ECS EC2 or ECS Fargate. Beyond attaching to a container, the AWS toolkit for JetBrains allows you to do live debugging, e.g. set breakpoints and synchronize local changes to the running container. 
+
 # ssm-agent
 
 ![screenshot](img/1.png)
