@@ -29,9 +29,13 @@ delete-ssm-role:
 ecr-login:
 	aws ecr get-login --no-include-email | bash
 
-.PHONY: build
-build:
+.PHONY: build-redis
+build-redis:
 	cd examples/redis && docker build . -t ssm-agent:latest
+
+.PHONY: build-nginx
+build-nginx:
+	cd examples/nginx && docker build . -t ssm-agent:latest
 
 .PHONY: push
 push: ecr-login
@@ -59,9 +63,9 @@ create-activation:
 render-task-parameters:
 	echo ParameterKey=TaskRoleArn,ParameterValue=\
 	$(shell aws cloudformation describe-stacks --stack-name SSMTaskRole | \
-	jq '.Stacks[0].Outputs[0].OutputValue' | tr -d '"') \
-	ParameterKey=ExecutionRoleArn,ParameterValue=$(shell aws cloudformation describe-stacks --stack-name SSMTaskRole | \
 	jq '.Stacks[0].Outputs[1].OutputValue' | tr -d '"') \
+	ParameterKey=ExecutionRoleArn,ParameterValue=$(shell aws cloudformation describe-stacks --stack-name SSMTaskRole | \
+	jq '.Stacks[0].Outputs[0].OutputValue' | tr -d '"') \
 	ParameterKey=ServiceName,ParameterValue=FargateSSMAgentDemo \
 	ParameterKey=ImageUrl,ParameterValue=$(shell aws ecr describe-repositories \
 	--repository-names ssm-agent | jq '.repositories[0].repositoryUri' | tr -d '"'):latest > \

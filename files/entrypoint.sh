@@ -2,5 +2,5 @@
 
 set -e
 systemctl stop amazon-ssm-agent 
-amazon-ssm-agent -register -code "<code>" -id "<id>" -region "<region>"
+amazon-ssm-agent -register -code "<code>" -id "<id>" -region "<region>" -y
 exec "$@"
