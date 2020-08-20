@@ -34,12 +34,13 @@ Resources:
               - ecr:GetDownloadUrlForLayer
               - ecr:BatchGetImage
               - logs:CreateLogStream
+              - logs:CreateLogGroup
               - logs:PutLogEvents
             Resource: '*'
   ecsTaskExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: "ecsTaskExecutionRole"
+      RoleName: "ecsTaskExecutionRoleWithSSM"
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:

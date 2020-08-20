@@ -23,8 +23,8 @@ Before building the image from the Dockerfile in the repository, you will need t
 ## Running the Fargate task
 The repository includes a sample task definition for running the SSM agent as a Fargate task and a set of `Makefile` targets that help with setup.
 
-## The example
-Getting the agent running as a Fargate task is a great accomplishment, but it's not that useful unless you can use it to interact with other applications running in the container, e.g. NGINX or Redis.  Docker provides a couple of examples of how you can [run multiple service in a container](https://docs.docker.com/config/containers/multi-service_container/). The example [in the example directory] uses supervisord to run the SSM agent and Redis.  
+## The examples
+Getting the agent running as a Fargate task is a great accomplishment, but it's not that useful unless you can use it to interact with other applications running in the container, e.g. NGINX or Redis.  Docker provides a couple of examples of how you can [run multiple service in a container](https://docs.docker.com/config/containers/multi-service_container/). There are two examples [in the example directory] both use supervisord to run the SSM agent and Redis or NGINX.  
 
 ## Automated Setup Using the Makefile
 A make target was added to simplify deploying a working demo of the project.  Follow the DIY steps above **or** run the following commands on a machine with Make, the awscli, and administrator level access.
@@ -54,10 +54,10 @@ Setup the rest of the tasks.
 
 ```
 make setup
-make build
+make build-redis OR build-nginx
 make push
 make create-task-role
-make render-parameters
+make render-task-parameters
 make create-task
 ```
 
